@@ -19,16 +19,8 @@ app.UseStaticFiles();
 app.UseStatusCodePages();
 app.MapRazorPages();
 
-app.MapGet("/ping", () => Results.Ok(new { message = "pong" }))
+app.MapGet("/", () => Results.Ok(new { message = "pong" }))
     .WithName("Ping")
     .WithDescription("Returns a pong response to indicate the service is running.");
-
-app.MapGet("/ping-async", async () =>
-{
-    await Task.Delay(100);
-    return Results.Ok(new { message = "pong" });
-})
-    .WithName("PingAsync")
-    .WithDescription("Returns a pong response asynchronously to indicate the service is running.");
 
 app.Run();
