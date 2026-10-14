@@ -2,7 +2,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddProblemDetails();
-builder.Services.AddRazorPages();
 
 var app = builder.Build();
 app.UseHttpsRedirection();
@@ -17,10 +16,13 @@ app.UseSwagger();
 app.UseSwaggerUI();
 app.UseStaticFiles();
 app.UseStatusCodePages();
-app.MapRazorPages();
 
 app.MapGet("/", () => Results.Ok(new { message = "pong" }))
     .WithName("Ping")
     .WithDescription("Returns a pong response to indicate the service is running.");
+
+app.MapFallback(() => Results.Ok(new { message = "pong" }))
+    .WithName("Fallback")
+    .WithDescription("Handles requests to undefined routes and returns a 404 Not Found response.");
 
 app.Run();
